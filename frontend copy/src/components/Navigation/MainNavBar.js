@@ -10,14 +10,9 @@ const MainNavBar = () => {
     <div>
       <a
         href="#responsive-header"
-        class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+        class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white"
       >
         <NavLink to="/leaderboard">{currentUser.username}</NavLink>
-      </a>
-      <a class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white cursor-pointer"
-        onClick={currentUser.logout}
-      >
-      Log out
       </a>
     </div>
   );

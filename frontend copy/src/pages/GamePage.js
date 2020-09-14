@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import TriviaContext from "../utils/TriviaContext";
 import AnswerCard from "../components/AnswerCard";
 import ContentCard from "../components/ContentCard";
-import TriviaConfig from "../components/Modal/TriviaConfig";
+
+const API_URL = "https://opentdb.com/api.php?amount=10";
 
 const GamePage = () => {
   const [questions, setQuestions] = useState([]);
@@ -11,14 +12,13 @@ const GamePage = () => {
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [started, setStarted] = useState(false);
-  const [API_URL, setAPI_URL] = useState("https://opentdb.com/api.php?amount=10");
 
   const updateScore = (x) => {
     setScore((s) => s + x);
   };
 
   const handleNext = () => {
-    if (qId < questions.length) {
+    if (qId < 9) {
       setqId((prevId) => prevId + 1);
     } else {
       setFinished(true);
@@ -41,7 +41,7 @@ const GamePage = () => {
         });
         setQuestions(questionsResult);
       });
-  }, [API_URL]);
+  }, []);
 
   let content = <div class="self-center"></div>;
 
@@ -50,7 +50,11 @@ const GamePage = () => {
       <ContentCard
         content={
           <div>
-            <TriviaConfig></TriviaConfig>
+            <button
+              class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
+            >
+                Configure
+            </button>
             <button
               class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
               onClick={() => setStarted(true)}
@@ -87,8 +91,6 @@ const GamePage = () => {
         setScore,
         revealed,
         setRevealed,
-        API_URL,
-        setAPI_URL
       }}
     >
       {content}

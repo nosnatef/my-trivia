@@ -24,11 +24,7 @@ function App() {
     setUsername(username);
   };
 
-  const logout = () => {
-    setToken(null);
-    setUserId(null);
-    setUsername(null);
-  };
+  const logout = () => {};
 
 
   return (
@@ -41,15 +37,13 @@ function App() {
                   setUserId,
                   username,
                   setUsername,
-                  login,
-                  logout
+                  login
                 }}
     >
       <MainNavBar />
       <div class="flex justify-center items-center h-screen">
         <Switch>
-          
-          {/* {!token && <Redirect from="/" to="/auth" exact />} */}
+          {!token && <Redirect from="/" to="/auth" exact />}
           {token && <Redirect from="/auth" to="/" exact />}
           <Route exact path="/">
             <div className="App">
