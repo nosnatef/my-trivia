@@ -14,7 +14,7 @@ export default function TriviaConfig() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    setIsShown(false);
+    currentTrivia.setIsModal(false);
     const number = numberRef.current.value;
     const difficulty = difficultyMap[difficultyRef.current.value];
     let newAPI = baseAPI;
@@ -34,11 +34,11 @@ export default function TriviaConfig() {
     <>
       <button
         class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
-        onClick={() => setIsShown(true)}
+        onClick={() => currentTrivia.setIsModal(true)}
       >
         Configure
       </button>
-      {isShown ? (
+      {currentTrivia.isModal ? (
         <>
           <div class="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div class="relative w-auto my-6 mx-auto max-w-3xl">
@@ -47,7 +47,7 @@ export default function TriviaConfig() {
                   <h3 class="text-3xl font-semibold">Game Configuration</h3>
                   <button
                     class="p-1 m1-auto bg-transparent border-0 text-black opcaity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => setIsShown(false)}
+                    onClick={() => currentTrivia.setIsModal(false)}
                   >
                     <span class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                       x
@@ -92,12 +92,22 @@ export default function TriviaConfig() {
                       <option>Hard</option>
                     </select>
                   </div>
-                  <button
-                    class="bg-blue-500 text-gray-300 p-2 rounded-lg mx-4 mb-4 shadow font-semibold hover:bg-blue-700"
-                    type="submit"
-                  >
-                    Test
-                  </button>
+                  <div class="flex justify-between mt-8">
+                    <button
+                      class="bg-blue-500 text-gray-300 p-2 rounded-lg mx-4 mb-4 shadow font-semibold hover:bg-blue-700 w-20"
+                      type="submit"
+                    >
+                      Test
+                    </button>
+                    <button
+                      class="bg-blue-500 text-gray-300 p-2 rounded-lg mx-4 mb-4 shadow font-semibold hover:bg-blue-700 w-20"
+                      type="button"
+                      onClick={() => currentTrivia.setIsModal(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  
                 </form>
               </div>
             </div>

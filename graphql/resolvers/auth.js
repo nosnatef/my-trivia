@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../../models/user');
+const { formatUser } = require('./merge');
 
 module.exports = {
     createUser: async ({ userInput }) => {
@@ -59,11 +60,13 @@ module.exports = {
             {
                 expiresIn: '1h'
             });
+            console.log(formatUser(user));
             return {
                 userId: user._id,
                 token: token,
                 tokenExpiration: 1,
-                name: user.name
+                name: user.name,
+                user: formatUser(user)
             }
         } catch (e) {
             throw e;

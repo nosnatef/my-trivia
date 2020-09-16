@@ -17,6 +17,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [username,setUsername] = useState(null);
+  const [coins, setCoins] = useState(0);
 
   const login = (token, userId, tokenExpiration,username) => {
     setToken(token);
@@ -42,7 +43,9 @@ function App() {
                   username,
                   setUsername,
                   login,
-                  logout
+                  logout,
+                  coins,
+                  setCoins
                 }}
     >
       <MainNavBar />

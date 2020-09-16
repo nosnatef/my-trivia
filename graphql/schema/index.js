@@ -27,18 +27,21 @@ type AuthData {
     token:  String!
     tokenExpiration: Int!
     name: String!
+    user: User!
 }
 
 type RootQuery {
     users: [User!]!
     achievements: [Achievement!]!
     login(email: String!, password: String!): AuthData!
+    getUser: User!
 }
 
 type RootMutation {
     createUser(userInput: UserInput): User
     createAchievement(achievementInput: AchievementInput): Achievement
     unlockAchievement(achievement_name: String): User
+    addCoin(coins: Int!): User
 }
 
 input UserInput {

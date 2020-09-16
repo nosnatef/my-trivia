@@ -39,7 +39,11 @@ const AuthPage = () => {
             userId,
             token,
             tokenExpiration,
-            name
+            name,
+            user {
+              name
+              coins
+            }
           }
         }
       `,
@@ -55,6 +59,7 @@ const AuthPage = () => {
         }
       `,
     };
+
 
     fetch("http://localhost:8000/api", {
       method: "POST",
@@ -72,7 +77,6 @@ const AuthPage = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(currentUser)
         if (data.data.login) {
           currentUser.login(
             data.data.login.token,
@@ -80,8 +84,9 @@ const AuthPage = () => {
             data.data.login.tokenExpiration,
             data.data.login.name
           );
+          const userCoins = data.data.login.user.coins;
+          currentUser.setCoins(userCoins);
         }
-        console.log(data);
         
       })
       .catch((err) => {

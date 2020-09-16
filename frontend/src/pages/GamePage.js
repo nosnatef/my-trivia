@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TriviaContext from "../utils/TriviaContext";
+import UserContext from "../utils/UserContext";
 import AnswerCard from "../components/AnswerCard";
 import ContentCard from "../components/ContentCard";
 import TriviaConfig from "../components/Modal/TriviaConfig";
+import BackDrop from "../components/Modal/BackDrop";
 
 const GamePage = () => {
   const [questions, setQuestions] = useState([]);
@@ -11,20 +13,63 @@ const GamePage = () => {
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
   const [started, setStarted] = useState(false);
-  const [API_URL, setAPI_URL] = useState("https://opentdb.com/api.php?amount=10");
+  const [API_URL, setAPI_URL] = useState(
+    "https://opentdb.com/api.php?amount=10"
+  );
+  const [isModal, setIsModal] = useState(false);
+
+  const currentUser = useContext(UserContext);
 
   const updateScore = (x) => {
     setScore((s) => s + x);
   };
 
   const handleNext = () => {
-    if (qId < questions.length) {
+    if (qId < questions.length - 1) {
       setqId((prevId) => prevId + 1);
     } else {
-      setFinished(true);
+      finishTrivia();
     }
     setRevealed(false);
   };
+
+  const finishTrivia = () => {
+    setFinished(true);
+
+    const requestBody = {
+      query: `
+        mutation{
+          addCoin(coins:${score * 10}){
+            name
+            coins
+          }
+        }
+      `
+    }
+    
+    fetch("http://localhost:8000/api", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + currentUser.token,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Update failed");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  }
 
   useEffect(() => {
     fetch(API_URL)
@@ -50,13 +95,16 @@ const GamePage = () => {
       <ContentCard
         content={
           <div>
-            <TriviaConfig></TriviaConfig>
-            <button
-              class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
-              onClick={() => setStarted(true)}
-            >
-              Start Trivia Game
-            </button>
+            <h3 class="text-3xl font-semibold m-6">Welcome to MyTrivia</h3>
+            <div class="flex justify-between">
+              <TriviaConfig></TriviaConfig>
+              <button
+                class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
+                onClick={() => setStarted(true)}
+              >
+                Start Trivia Game
+              </button>
+            </div>
           </div>
         }
       ></ContentCard>
@@ -88,11 +136,13 @@ const GamePage = () => {
         revealed,
         setRevealed,
         API_URL,
-        setAPI_URL
+        setAPI_URL,
+        isModal,
+        setIsModal,
       }}
     >
+      <BackDrop />
       {content}
-      <div>Score: {score}</div>
     </TriviaContext.Provider>
   );
 };
