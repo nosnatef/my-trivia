@@ -60,7 +60,6 @@ const AuthPage = () => {
       `,
     };
 
-
     fetch("http://localhost:8000/api", {
       method: "POST",
       body: isSignIn
@@ -87,7 +86,6 @@ const AuthPage = () => {
           const userCoins = data.data.login.user.coins;
           currentUser.setCoins(userCoins);
         }
-        
       })
       .catch((err) => {
         console.log(err);

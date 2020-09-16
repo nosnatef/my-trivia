@@ -16,10 +16,10 @@ import MainNavBar from "./components/Navigation/MainNavBar";
 function App() {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [username,setUsername] = useState(null);
+  const [username, setUsername] = useState(null);
   const [coins, setCoins] = useState(0);
 
-  const login = (token, userId, tokenExpiration,username) => {
+  const login = (token, userId, tokenExpiration, username) => {
     setToken(token);
     setUserId(userId);
     setUsername(username);
@@ -31,42 +31,40 @@ function App() {
     setUsername(null);
   };
 
-
   return (
     <Router>
       <UserContext.Provider
-                value={{
-                  token,
-                  setToken,
-                  userId,
-                  setUserId,
-                  username,
-                  setUsername,
-                  login,
-                  logout,
-                  coins,
-                  setCoins
-                }}
-    >
-      <MainNavBar />
-      <div class="flex justify-center items-center h-screen">
-        <Switch>
-          
-          {/* {!token && <Redirect from="/" to="/auth" exact />} */}
-          {token && <Redirect from="/auth" to="/" exact />}
-          <Route exact path="/">
-            <div className="App">
+        value={{
+          token,
+          setToken,
+          userId,
+          setUserId,
+          username,
+          setUsername,
+          login,
+          logout,
+          coins,
+          setCoins,
+        }}
+      >
+        <MainNavBar />
+        <div class="flex justify-center items-center h-screen">
+          <Switch>
+            {!token && <Redirect from="/" to="/auth" exact />}
+            {token && <Redirect from="/auth" to="/" exact />}
+            <Route exact path="/">
+              <div className="App">
                 <GamePage />
-            </div>
-          </Route>
-          <Route path="/auth">
-            <AuthPage />
-          </Route>
-          <Route path="/leaderboard">
-            <LeaderboardPage />
-          </Route>
-        </Switch>
-      </div>
+              </div>
+            </Route>
+            <Route path="/auth">
+              <AuthPage />
+            </Route>
+            <Route path="/leaderboard">
+              <LeaderboardPage />
+            </Route>
+          </Switch>
+        </div>
       </UserContext.Provider>
     </Router>
   );

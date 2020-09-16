@@ -19,7 +19,7 @@ export default function TriviaConfig() {
     const difficulty = difficultyMap[difficultyRef.current.value];
     let newAPI = baseAPI;
     newAPI += `amount=${number ? number : 10}`;
-    newAPI += `${difficulty ? `&difficulty=${difficulty}` : ""}`
+    newAPI += `${difficulty ? `&difficulty=${difficulty}` : ""}`;
     currentTrivia.setAPI_URL(newAPI);
   };
 
@@ -107,7 +107,6 @@ export default function TriviaConfig() {
                       Cancel
                     </button>
                   </div>
-                  
                 </form>
               </div>
             </div>

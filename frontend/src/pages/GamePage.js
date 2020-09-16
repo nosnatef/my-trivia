@@ -5,6 +5,7 @@ import AnswerCard from "../components/AnswerCard";
 import ContentCard from "../components/ContentCard";
 import TriviaConfig from "../components/Modal/TriviaConfig";
 import BackDrop from "../components/Modal/BackDrop";
+import getUser from "../query/getUser";
 
 const GamePage = () => {
   const [questions, setQuestions] = useState([]);
@@ -19,6 +20,23 @@ const GamePage = () => {
   const [isModal, setIsModal] = useState(false);
 
   const currentUser = useContext(UserContext);
+
+  const cleanState = async () => {
+    setQuestions([]);
+    setqId(0);
+    setFinished(false);
+    setRevealed(false);
+    setScore(0);
+    setStarted(false);
+    setAPI_URL("https://opentdb.com/api.php?amount=10");
+    setIsModal(false);
+    refreshQuestions();
+    const getResult = await getUser(currentUser.token);
+    const newCoin = getResult.data.getUser.coins;
+    currentUser.setCoins(newCoin);
+  }
+
+  
 
   const updateScore = (x) => {
     setScore((s) => s + x);
@@ -44,15 +62,15 @@ const GamePage = () => {
             coins
           }
         }
-      `
-    }
-    
+      `,
+    };
+
     fetch("http://localhost:8000/api", {
       method: "POST",
       body: JSON.stringify(requestBody),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + currentUser.token,
+        Authorization: "Bearer " + currentUser.token,
       },
     })
       .then((res) => {
@@ -68,10 +86,9 @@ const GamePage = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
 
-  }
-
-  useEffect(() => {
+  const refreshQuestions = () => {
     fetch(API_URL)
       .then((res) => res.json())
       .then((data) => {
@@ -86,6 +103,10 @@ const GamePage = () => {
         });
         setQuestions(questionsResult);
       });
+  }
+
+  useEffect(() => {
+    refreshQuestions();
   }, [API_URL]);
 
   let content = <div class="self-center"></div>;
@@ -111,7 +132,20 @@ const GamePage = () => {
     );
   } else if (finished) {
     content = (
-      <h1 class="text-2xl font-bold">Trivia done. Your score:{score}</h1>
+      <ContentCard
+        content={
+          <>
+          <h1 class="text-2xl font-bold">Trivia done. Your score:{score}</h1>
+          <button
+            class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
+            onClick={() => {
+              cleanState()
+            }} 
+          >Try again</button>
+          </>
+        }
+      />
+      
     );
   } else if (questions.length < 1) {
     content = <h1 class="text-2xl font-bold">Loading....</h1>;
