@@ -1,23 +1,22 @@
 import React, { useRef, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
-
 import UserContext from "../utils/UserContext";
 
-const AuthPage = () => {
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+import { fireApp } from "../base";
 
-  const [emailWarning, setEmailWarning] = useState(false);
-  const [passwordWarning, setPasswordWarning] = useState(false);
-  const [isSignIn, setIsSignIn] = useState(false);
+const storage = fireApp.storage();
 
+export default function SignupPage() {
   const currentUser = useContext(UserContext);
 
-  const submitHandler = (event) => {
+  const [file, setFile] = useState(null);
+
+  const submitHandler = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    const name = nameRef.current.value;
 
     if (email.trim().length === 0) {
       setEmailWarning(true);
@@ -35,30 +34,13 @@ const AuthPage = () => {
       return;
     }
 
-    const requestBodySignIn = {
-      query: `
-        query {
-          login(email:"${email}", password:"${password}") {
-            userId,
-            token,
-            tokenExpiration,
-            name,
-            user {
-              name
-              coins
-              profilePic
-            }
-          }
-        }
-      `,
-    };
-
     const requestBodySignUp = {
       query: `
         mutation {
-          createUser(userInput: {email:"${email}",password:"${password}",name:"avsdd"}) {
+          createUser(userInput: {email:"${email}",password:"${password}",name:"${name}",profilePic:"https://firebasestorage.googleapis.com/v0/b/my-trivia-446f8.appspot.com/o/default.jpg?alt=media&token=f8c6f5a1-5991-418b-8115-750c86ceb2c4"}) {
             _id
             email
+            profilePic
           }
         }
       `,
@@ -66,39 +48,45 @@ const AuthPage = () => {
 
     fetch("http://localhost:8000/api", {
       method: "POST",
-      body: isSignIn
-        ? JSON.stringify(requestBodySignIn)
-        : JSON.stringify(requestBodySignUp),
+      body: JSON.stringify(requestBodySignUp),
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then((res) => {
-        
         if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Login failed");
+          throw new Error("Signup failed");
         }
         return res.json();
       })
       .then((data) => {
-        console.log(data);
-        if (data.data.login) {
-          currentUser.login(
-            data.data.login.token,
-            data.data.login.userId,
-            data.data.login.tokenExpiration,
-            data.data.login.name
-          );
-          const userCoins = data.data.login.user.coins;
-          currentUser.setCoins(userCoins);
-          const userProfilePic = data.data.login.user.profilePic;
-          currentUser.setProfilePic(userProfilePic);
+        return data.data.createUser._id;
+      })
+      .then(async (id) => {
+        if (file) {
+          const storageRef = storage.ref();
+          const fileRef = storageRef.child(`${id}.jpg`);
+          await fileRef.put(file);
+          const downloadURL = await fileRef.getDownloadURL();
+          console.log(downloadURL);
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const onChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const nameRef = useRef(null);
+
+  const [emailWarning, setEmailWarning] = useState(false);
+  const [passwordWarning, setPasswordWarning] = useState(false);
+  const [nameWarning, setNameWarning] = useState(false);
 
   return (
     <div class="w-full max-w-md font-sans">
@@ -107,7 +95,7 @@ const AuthPage = () => {
         onSubmit={submitHandler}
       >
         <div class="mb-6 flex items-center justify-center">
-          <label class="text-black text-lg font-bold mb-2">Sign In</label>
+          <label class="text-black text-lg font-bold mb-2">Sign Up</label>
         </div>
         <div class="mb-4">
           <label
@@ -151,30 +139,55 @@ const AuthPage = () => {
             ""
           )}
         </div>
+        <div class="mb-4">
+          <label
+            class="block text-gray-700 text-base font-bold mb-2"
+            for="name"
+          >
+            Name
+          </label>
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            id="name"
+            type="name"
+            placeholder="Your Name"
+            ref={nameRef}
+          ></input>
+          {nameWarning ? (
+            <p class="text-red-500 text-xs italic">Please enter your name.</p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div>
+          <label
+            class="block text-gray-700 text-base font-bold mb-2"
+            for="profile_pic"
+          >
+            Upload your profile pic
+            <label class="my-4 w-50 h-30 flex flex-col items-center px-4 py-2 bg-white text-blue-500 rounded-lg shadow-lg tracking-wide uppercase border border-blue-500 cursor-pointer hover:bg-blue-500 hover:text-white">
+              <svg
+                class="w-8 h-8"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+              </svg>
+              <span class="mt-2 text-base leading-normal">Select a file</span>
+              <input type="file" class="hidden" onChange={onChange} />
+            </label>
+          </label>
+        </div>
         <div class="flex items-center justify-between">
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
-            onClick={() => setIsSignIn(true)}
           >
-            Sign In
+            Sign Up
           </button>
-          <button
-            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-          >
-            <Link to='/signup'>Sign Up</Link>
-          </button>
-          <a
-            class="inline-block align-baseline font-bold text-sm py-2 text-blue-500 hover:text-blue-800"
-            href="#"
-          >
-            Forgot Password?
-          </a>
         </div>
       </form>
     </div>
   );
-};
-
-export default AuthPage;
+}

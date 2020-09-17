@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./assets/main.css";
 import UserContext from "./utils/UserContext";
+import { fireApp } from "./base";
 
 import {
   BrowserRouter as Router,
@@ -13,12 +14,16 @@ import GamePage from "./pages/GamePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import AboutPage from "./pages/AboutPage";
 import MainNavBar from "./components/Navigation/MainNavBar";
+import SignupPage from "./pages/SignupPage";
+
+const db = fireApp.firestore();
 
 function App() {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [username, setUsername] = useState(null);
   const [coins, setCoins] = useState(0);
+  const [profilePic, setProfilePic] = useState(null);
 
   const login = (token, userId, tokenExpiration, username) => {
     setToken(token);
@@ -46,6 +51,8 @@ function App() {
           logout,
           coins,
           setCoins,
+          profilePic,
+          setProfilePic
         }}
       >
         <MainNavBar />
@@ -53,6 +60,9 @@ function App() {
           <Switch>
             {!token && <Redirect from="/" to="/auth" exact />}
             {token && <Redirect from="/auth" to="/" exact />}
+            <Route path="/signup">
+              <SignupPage />
+            </Route>
             <Route exact path="/">
               <div className="App">
                 <GamePage />

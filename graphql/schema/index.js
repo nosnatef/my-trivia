@@ -12,6 +12,7 @@ type User {
     last_login: String!
     unlockedAchievements: [Achievement!]
     coins: Int!
+    profilePic: String!
 }
 
 type Achievement {
@@ -49,6 +50,7 @@ input UserInput {
     email: String!
     password: String!
     name: String!
+    profilePic: String!
 }
 
 input AchievementInput {

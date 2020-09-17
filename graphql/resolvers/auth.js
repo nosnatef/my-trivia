@@ -22,6 +22,7 @@ module.exports = {
           level: 1,
           exp: 0,
           coins: 0,
+          profilePic: userInput.profilePic,
           created: new Date().toISOString(),
           last_login: new Date().toISOString(),
         });
