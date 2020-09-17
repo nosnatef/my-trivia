@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-
+import LoginAction from "../query/loginAction";
 
 import UserContext from "../utils/UserContext";
 
@@ -14,7 +14,7 @@ const AuthPage = () => {
 
   const currentUser = useContext(UserContext);
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -35,69 +35,19 @@ const AuthPage = () => {
       return;
     }
 
-    const requestBodySignIn = {
-      query: `
-        query {
-          login(email:"${email}", password:"${password}") {
-            userId,
-            token,
-            tokenExpiration,
-            name,
-            user {
-              name
-              coins
-              profilePic
-            }
-          }
-        }
-      `,
-    };
-
-    const requestBodySignUp = {
-      query: `
-        mutation {
-          createUser(userInput: {email:"${email}",password:"${password}",name:"avsdd"}) {
-            _id
-            email
-          }
-        }
-      `,
-    };
-
-    fetch("http://localhost:8000/api", {
-      method: "POST",
-      body: isSignIn
-        ? JSON.stringify(requestBodySignIn)
-        : JSON.stringify(requestBodySignUp),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Login failed");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        if (data.data.login) {
-          currentUser.login(
-            data.data.login.token,
-            data.data.login.userId,
-            data.data.login.tokenExpiration,
-            data.data.login.name
-          );
-          const userCoins = data.data.login.user.coins;
-          currentUser.setCoins(userCoins);
-          const userProfilePic = data.data.login.user.profilePic;
-          currentUser.setProfilePic(userProfilePic);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const loginData = await LoginAction(email, password);
+    if (loginData.data.login) {
+      currentUser.login(
+        loginData.data.login.token,
+        loginData.data.login.userId,
+        loginData.data.login.tokenExpiration,
+        loginData.data.login.name
+      );
+      const userCoins = loginData.data.login.user.coins;
+      currentUser.setCoins(userCoins);
+      const userProfilePic = loginData.data.login.user.profilePic;
+      currentUser.setProfilePic(userProfilePic);
+    }
   };
 
   return (
@@ -163,7 +113,7 @@ const AuthPage = () => {
             class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
           >
-            <Link to='/signup'>Sign Up</Link>
+            <Link to="/signup">Sign Up</Link>
           </button>
           <a
             class="inline-block align-baseline font-bold text-sm py-2 text-blue-500 hover:text-blue-800"

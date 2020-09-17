@@ -44,6 +44,7 @@ type RootMutation {
     createAchievement(achievementInput: AchievementInput): Achievement
     unlockAchievement(achievement_name: String): User
     addCoin(coins: Int!): User
+    updateProfilePic(profilePic:String!): User
 }
 
 input UserInput {

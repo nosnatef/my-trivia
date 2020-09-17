@@ -2,8 +2,11 @@ import React, { useRef, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import UserContext from "../utils/UserContext";
+import LoginAction from "../query/loginAction";
 
 import { fireApp } from "../base";
+
+import updateProfilePic from "../query/updateProfilePic";
 
 const storage = fireApp.storage();
 
@@ -37,7 +40,7 @@ export default function SignupPage() {
     const requestBodySignUp = {
       query: `
         mutation {
-          createUser(userInput: {email:"${email}",password:"${password}",name:"${name}",profilePic:"https://firebasestorage.googleapis.com/v0/b/my-trivia-446f8.appspot.com/o/default.jpg?alt=media&token=f8c6f5a1-5991-418b-8115-750c86ceb2c4"}) {
+          createUser(userInput: {email:"${email}",password:"${password}",name:"${name}",profilePic:"https://firebasestorage.googleapis.com/v0/b/my-trivia-446f8.appspot.com/o/default.jpg?alt=media&token=d88f0e02-ec07-4bcf-a422-0d2c5b0fe8c7"}) {
             _id
             email
             profilePic
@@ -63,13 +66,30 @@ export default function SignupPage() {
         return data.data.createUser._id;
       })
       .then(async (id) => {
-        if (file) {
-          const storageRef = storage.ref();
-          const fileRef = storageRef.child(`${id}.jpg`);
-          await fileRef.put(file);
-          const downloadURL = await fileRef.getDownloadURL();
-          console.log(downloadURL);
+        const loginData = await LoginAction(email, password);
+        if (loginData.data.login) {
+          currentUser.login(
+            loginData.data.login.token,
+            loginData.data.login.userId,
+            loginData.data.login.tokenExpiration,
+            loginData.data.login.name
+          );
+          const userCoins = loginData.data.login.user.coins;
+          currentUser.setCoins(userCoins);
+          const userProfilePic = loginData.data.login.user.profilePic;
+          currentUser.setProfilePic(userProfilePic);
+
+          if (file) {
+            const storageRef = storage.ref();
+            const fileRef = storageRef.child(`${id}.jpg`);
+            await fileRef.put(file);
+            const downloadURL = await fileRef.getDownloadURL();
+            const updateResult = await updateProfilePic(loginData.data.login.token, downloadURL);
+            console.log(updateResult);
+          }
         }
+
+        
       })
       .catch((err) => {
         console.log(err);

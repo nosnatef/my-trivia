@@ -67,4 +67,25 @@ module.exports = {
       }
     } catch (e) {}
   },
+  updateProfilePic: async (args, req) => {
+    try {
+      const filter = {
+        _id: req.userId,
+      };
+      const update = {
+        profilePic: args.profilePic
+      }
+      if (!req.isAuth) {
+        throw new Error("No permission.");
+      }
+      const userResult = await User.findByIdAndUpdate(filter, update);
+      if (userResult) {
+        return formatUser(userResult);
+      } else {
+        throw Error("User does not exist.");
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
 };
