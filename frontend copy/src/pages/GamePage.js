@@ -51,12 +51,12 @@ const GamePage = () => {
         content={
           <div>
             <button
-              class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
+              class="btn-blue"
             >
                 Configure
             </button>
             <button
-              class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
+              class="btn-blue"
               onClick={() => setStarted(true)}
             >
               Start Trivia Game

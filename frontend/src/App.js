@@ -11,6 +11,7 @@ import {
 import AuthPage from "./pages/AuthPage";
 import GamePage from "./pages/GamePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import AboutPage from "./pages/AboutPage";
 import MainNavBar from "./components/Navigation/MainNavBar";
 
 function App() {
@@ -59,6 +60,9 @@ function App() {
             </Route>
             <Route path="/auth">
               <AuthPage />
+            </Route>
+            <Route path="/about">
+              <AboutPage />
             </Route>
             <Route path="/leaderboard">
               <LeaderboardPage />

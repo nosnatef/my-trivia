@@ -3,3 +3,12 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@layer components {
+  .btn-blue {
+    @apply bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold;
+  }
+  .btn-blue:hover {
+    @apply bg-blue-700 transition duration-100 ease-in-out;
+  }
+}

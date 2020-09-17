@@ -43,7 +43,7 @@ const AnswerCard = ({ question, handleNext, updateScore, revealed }) => {
       </div>
       <button
         onClick={handleNext}
-        class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
+        class="btn-blue"
       >
         Next Question
       </button>

@@ -33,7 +33,7 @@ export default function TriviaConfig() {
   return (
     <>
       <button
-        class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
+        class="btn-blue"
         onClick={() => currentTrivia.setIsModal(true)}
       >
         Configure
@@ -94,13 +94,13 @@ export default function TriviaConfig() {
                   </div>
                   <div class="flex justify-between mt-8">
                     <button
-                      class="bg-blue-500 text-gray-300 p-2 rounded-lg mx-4 mb-4 shadow font-semibold hover:bg-blue-700 w-20"
+                      class="btn-blue"
                       type="submit"
                     >
                       Test
                     </button>
                     <button
-                      class="bg-blue-500 text-gray-300 p-2 rounded-lg mx-4 mb-4 shadow font-semibold hover:bg-blue-700 w-20"
+                      class="btn-blue"
                       type="button"
                       onClick={() => currentTrivia.setIsModal(false)}
                     >

@@ -120,7 +120,7 @@ const GamePage = () => {
             <div class="flex justify-between">
               <TriviaConfig></TriviaConfig>
               <button
-                class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
+                class="btn-blue"
                 onClick={() => setStarted(true)}
               >
                 Start Trivia Game
@@ -137,7 +137,7 @@ const GamePage = () => {
           <>
           <h1 class="text-2xl font-bold">Trivia done. Your score:{score}</h1>
           <button
-            class="bg-blue-500 text-gray-300 p-2 rounded-lg mt-4 ml-2 shadow font-semibold hover:bg-blue-700"
+            class="btn-blue"
             onClick={() => {
               cleanState()
             }} 
