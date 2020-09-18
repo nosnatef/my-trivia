@@ -1,6 +1,7 @@
 import React, { useRef, useState, useContext } from "react";
 
 import UserContext from "../utils/UserContext";
+import AchievementCard from "../components/AchievementCard";
 
 export default function ProfilePage() {
   const currentUser = useContext(UserContext);
@@ -19,31 +20,10 @@ export default function ProfilePage() {
         </div>
       </div>
       <div class="flex flex-wrap justify-between border-gray-600">
-        <div class="achievement-card bg-gray-300 p-4 flex justify-self-auto mb-2 pr-16 w-auto flex-1 mr-4">
-          <img
-            src="https://icon-library.com/images/achievement-icon-png/achievement-icon-png-29.jpg"
-            class="w-24 h-24 "
-          ></img>
-          <div class="flex flex-col ml-4">
-            <div class="font-semibold text-xl">Trivia Beginner</div>
-            <div class="font-serif">Finish 1 game of trivia.</div>
-          </div>
-        </div>
-        <div class="achievement-card bg-gray-300 p-4 flex justify-self-auto mb-2 pr-16 w-auto flex-1 mr-4">
-          <img
-            src="https://icon-library.com/images/achievement-icon-png/achievement-icon-png-29.jpg"
-            class="w-24 h-24 "
-          ></img>
-          <div class="font-semibold text-xl">Trivia Apprentice</div>
-        </div>
-        <div class="achievement-card bg-gray-300 p-4 flex justify-self-auto mb-2 pr-16 w-auto flex-1">
-          <img
-            src="https://icon-library.com/images/achievement-icon-png/achievement-icon-png-29.jpg"
-            class="w-24 h-24 "
-          ></img>
-          <div class="font-semibold text-xl">Trivia Master</div>
-        </div>
-        
+        <AchievementCard />
+        <AchievementCard />
+        <AchievementCard />
+        <AchievementCard />
       </div>
     </div>
   );
