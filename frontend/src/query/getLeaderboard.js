@@ -5,6 +5,7 @@ const getLeaderboard = async (token) => {
       getLeaderboard{
         name
         coins
+        profilePic
       }
     }
   `

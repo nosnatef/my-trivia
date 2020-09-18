@@ -5,7 +5,7 @@ import coinIcon from "../images/coinIcon"
 export default function LeaderboardCard({ user }) {
   return (
     <div class="flex justify-between items-center bg-white rounded p-4 mb-4">
-      <img class="h-8 hidden md:block" src="https://via.placeholder.com/150"></img>
+      <img class="h-8 hidden md:block" src={user.profilePic}></img>
       <div>
         <p class="font-bold text-sm mx-2">{user.name}</p>
       </div>

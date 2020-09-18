@@ -67,7 +67,7 @@ export default function SignupPage() {
       })
       .then(async (id) => {
         const loginData = await LoginAction(email, password);
-        if (loginData.data.login) {
+        if (loginData && loginData.data.login) {
           currentUser.login(
             loginData.data.login.token,
             loginData.data.login.userId,

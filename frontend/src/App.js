@@ -15,6 +15,7 @@ import LeaderboardPage from "./pages/LeaderboardPage";
 import AboutPage from "./pages/AboutPage";
 import MainNavBar from "./components/Navigation/MainNavBar";
 import SignupPage from "./pages/SignupPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const db = fireApp.firestore();
 
@@ -52,7 +53,7 @@ function App() {
           coins,
           setCoins,
           profilePic,
-          setProfilePic
+          setProfilePic,
         }}
       >
         <MainNavBar />
@@ -76,6 +77,9 @@ function App() {
             </Route>
             <Route path="/leaderboard">
               <LeaderboardPage />
+            </Route>
+            <Route path="/profile">
+              <ProfilePage />
             </Route>
           </Switch>
         </div>
