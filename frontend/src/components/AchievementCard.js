@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function AchievementCard({ title, description, finished }) {
+export default function AchievementCard({ name, description, finished }) {
   const finishedIcon = (
     <img
       src="https://icon-library.net/images/tick-icon-png/tick-icon-png-23.jpg"
@@ -15,8 +15,8 @@ export default function AchievementCard({ title, description, finished }) {
         class="w-24 h-24 "
       ></img>
       <div class="flex flex-col ml-4">
-        <div class="font-semibold text-xl">Trivia Beginner</div>
-        <div class="font-serif">Finish 1 game of trivia.</div>
+        <div class="font-semibold text-xl">{name}</div>
+        <div class="font-serif">{description}</div>
         {finished && finishedIcon}
       </div>
     </div>

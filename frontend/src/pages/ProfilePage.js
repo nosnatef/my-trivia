@@ -1,10 +1,21 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 
 import UserContext from "../utils/UserContext";
 import AchievementCard from "../components/AchievementCard";
 
+import getAchievements from "../query/getAchievements";
+
 export default function ProfilePage() {
   const currentUser = useContext(UserContext);
+
+  const [achievements, setAchievements] = useState([]);
+
+  useEffect(async () => {
+    const achievementList = await getAchievements();
+    if (achievementList) {
+      setAchievements(achievementList.data.achievements);
+    }
+  }, []);
 
   return (
     <div class="container bg-white shadow-md p-6 w-full">
@@ -20,10 +31,10 @@ export default function ProfilePage() {
         </div>
       </div>
       <div class="flex flex-wrap justify-between border-gray-600">
-        <AchievementCard />
-        <AchievementCard />
-        <AchievementCard />
-        <AchievementCard />
+        {achievements && achievements.map((achievement) => {
+          const { name, description } = achievement;
+          return (<AchievementCard name={name} description={description} />);
+        })}
       </div>
     </div>
   );
