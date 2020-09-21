@@ -39,15 +39,18 @@ module.exports = {
       });
       if (achievementResult) {
         const unlockedAchievement = achievementResult._id;
-        const userResult = await User.findOne({
+        const userResult = await User.findOneAndUpdate({
           _id: req.userId,
+        },
+        {
+          $addToSet:{
+            unlockedAchievements:unlockedAchievement
+          }
         });
         if (!userResult) {
           throw new Error("User does not exist.");
         } else {
-          userResult.unlockedAchievements.push(unlockedAchievement);
-          const finalResult = await userResult.save();
-          return formatUser(finalResult);
+          return formatUser(userResult);
         }
       } else {
         throw new Error("Achievement does not exist.");

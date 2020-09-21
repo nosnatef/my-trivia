@@ -7,6 +7,8 @@ import TriviaConfig from "../components/Modal/TriviaConfig";
 import BackDrop from "../components/Modal/BackDrop";
 import getUser from "../query/getUser";
 
+import addGamesPlayed from "../query/addGamesPlayed";
+
 const GamePage = () => {
   const [questions, setQuestions] = useState([]);
   const [qId, setqId] = useState(0);
@@ -34,9 +36,7 @@ const GamePage = () => {
     const getResult = await getUser(currentUser.token);
     const newCoin = getResult.data.getUser.coins;
     currentUser.setCoins(newCoin);
-  }
-
-  
+  };
 
   const updateScore = (x) => {
     setScore((s) => s + x);
@@ -80,12 +80,14 @@ const GamePage = () => {
         }
         return res.json();
       })
-      .then((data) => {
-        console.log(data);
-      })
+      .then((data) => {})
       .catch((err) => {
         console.log(err);
       });
+
+    addGamesPlayed(currentUser.token, 1).then((data) => {
+      console.log(data);
+    });
   };
 
   const refreshQuestions = () => {
@@ -103,7 +105,7 @@ const GamePage = () => {
         });
         setQuestions(questionsResult);
       });
-  }
+  };
 
   useEffect(() => {
     refreshQuestions();
@@ -119,10 +121,7 @@ const GamePage = () => {
             <h3 class="text-3xl font-semibold m-6">Welcome to MyTrivia</h3>
             <div class="flex justify-between">
               <TriviaConfig></TriviaConfig>
-              <button
-                class="btn-blue"
-                onClick={() => setStarted(true)}
-              >
+              <button class="btn-blue" onClick={() => setStarted(true)}>
                 Start Trivia Game
               </button>
             </div>
@@ -135,17 +134,18 @@ const GamePage = () => {
       <ContentCard
         content={
           <>
-          <h1 class="text-2xl font-bold">Trivia done. Your score:{score}</h1>
-          <button
-            class="btn-blue"
-            onClick={() => {
-              cleanState()
-            }} 
-          >Try again</button>
+            <h1 class="text-2xl font-bold">Trivia done. Your score:{score}</h1>
+            <button
+              class="btn-blue"
+              onClick={() => {
+                cleanState();
+              }}
+            >
+              Try again
+            </button>
           </>
         }
       />
-      
     );
   } else if (questions.length < 1) {
     content = <h1 class="text-2xl font-bold">Loading....</h1>;

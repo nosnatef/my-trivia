@@ -13,6 +13,7 @@ type User {
     unlockedAchievements: [Achievement!]
     coins: Int!
     profilePic: String!
+    gamesPlayed: Int!
 }
 
 type Achievement {
@@ -45,6 +46,7 @@ type RootMutation {
     unlockAchievement(achievement_name: String): User
     addCoin(coins: Int!): User
     updateProfilePic(profilePic:String!): User
+    addGamesPlayed(games: Int!): User
 }
 
 input UserInput {

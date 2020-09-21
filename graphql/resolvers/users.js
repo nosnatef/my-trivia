@@ -26,7 +26,34 @@ module.exports = {
       if (!req.isAuth) {
         throw new Error("No permission.");
       }
-      const userResult = await User.findByIdAndUpdate(filter, update);
+      const userResult = await User.findByIdAndUpdate(filter, update, {
+        new: true,
+      });
+      if (userResult) {
+        return formatUser(userResult);
+      } else {
+        throw Error("User does not exist.");
+      }
+    } catch (e) {
+      throw e;
+    }
+  },
+  addGamesPlayed: async (args, req) => {
+    try {
+      const filter = {
+        _id: req.userId,
+      };
+      const update = {
+        $inc: {
+          gamesPlayed: args.games,
+        },
+      };
+      if (!req.isAuth) {
+        throw new Error("No permission.");
+      }
+      const userResult = await User.findByIdAndUpdate(filter, update, {
+        new: true,
+      });
       if (userResult) {
         return formatUser(userResult);
       } else {
@@ -73,12 +100,14 @@ module.exports = {
         _id: req.userId,
       };
       const update = {
-        profilePic: args.profilePic
-      }
+        profilePic: args.profilePic,
+      };
       if (!req.isAuth) {
         throw new Error("No permission.");
       }
-      const userResult = await User.findByIdAndUpdate(filter, update);
+      const userResult = await User.findByIdAndUpdate(filter, update, {
+        new: true,
+      });
       if (userResult) {
         return formatUser(userResult);
       } else {
@@ -87,5 +116,5 @@ module.exports = {
     } catch (e) {
       throw e;
     }
-  }
+  },
 };
