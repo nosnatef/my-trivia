@@ -89,12 +89,12 @@ export default function SignupPage() {
             const fileRef = storageRef.child(`${id}.jpg`);
             await fileRef.put(file);
             const downloadURL = await fileRef.getDownloadURL();
-            const updateResult = await updateProfilePic(loginData.data.login.token, downloadURL);
-            console.log(updateResult);
+            const updateResult = await updateProfilePic(
+              loginData.data.login.token,
+              downloadURL
+            );
           }
         }
-
-        
       })
       .catch((err) => {
         console.log(err);

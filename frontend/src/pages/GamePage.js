@@ -38,7 +38,6 @@ const GamePage = () => {
     currentUser.setCoins(newCoin);
     const unlockedAchievement = getResult.data.getUser.unlockedAchievements;
     currentUser.setUnlockedAchievement(unlockedAchievement);
-    console.log(getResult.data.getUser);
   };
 
   const updateScore = (x) => {
@@ -77,7 +76,6 @@ const GamePage = () => {
       },
     })
       .then((res) => {
-        console.log(res);
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Update failed");
         }
@@ -88,9 +86,7 @@ const GamePage = () => {
         console.log(err);
       });
 
-    addGamesPlayed(currentUser.token, 1).then((data) => {
-      console.log(data);
-    });
+    addGamesPlayed(currentUser.token, 1).then((data) => {});
   };
 
   const refreshQuestions = () => {

@@ -42,7 +42,6 @@ export default function ProfilePage() {
         {achievements &&
           achievements.map((achievement) => {
             const { name, description } = achievement;
-            console.log(unlockedAchievementNames);
             return (
               <AchievementCard
                 name={name}

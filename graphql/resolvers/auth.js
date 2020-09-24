@@ -22,7 +22,7 @@ module.exports = {
           level: 1,
           exp: 0,
           coins: 0,
-          gamesPlayed:0,
+          gamesPlayed: 0,
           profilePic: userInput.profilePic,
           created: new Date().toISOString(),
           last_login: new Date().toISOString(),
@@ -57,7 +57,6 @@ module.exports = {
           expiresIn: "1h",
         }
       );
-      console.log(formatUser(user));
       return {
         userId: user._id,
         token: token,
