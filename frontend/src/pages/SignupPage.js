@@ -32,7 +32,13 @@ export default function SignupPage() {
       setPasswordWarning(false);
     }
 
-    if (emailWarning || passwordWarning) {
+    if (name.trim().length === 0) {
+      setNameWarning(true);
+    } else {
+      setNameWarning(false);
+    }
+
+    if (emailWarning || passwordWarning || nameWarning) {
       return;
     }
 
