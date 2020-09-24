@@ -8,7 +8,7 @@ export default function AboutPage() {
       <h1 class="mb-4 font-semibold text-xl">Made by Zhuohong Gu</h1>
       <div>
         <a href="https://github.com/nosnatef">
-          <img src={require("../images/github.png")}></img>
+          <img alt="github icon" src={require("../images/github.png")}></img>
         </a>
       </div>
     </div>

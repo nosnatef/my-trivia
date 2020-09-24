@@ -1,5 +1,4 @@
 import React, { useRef, useState, useContext } from "react";
-import { Link } from "react-router-dom";
 
 import UserContext from "../utils/UserContext";
 import LoginAction from "../query/loginAction";

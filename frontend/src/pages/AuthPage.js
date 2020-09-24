@@ -10,7 +10,6 @@ const AuthPage = () => {
 
   const [emailWarning, setEmailWarning] = useState(false);
   const [passwordWarning, setPasswordWarning] = useState(false);
-  const [isSignIn, setIsSignIn] = useState(false);
 
   const currentUser = useContext(UserContext);
 
@@ -106,7 +105,6 @@ const AuthPage = () => {
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
-            onClick={() => setIsSignIn(true)}
           >
             Sign In
           </button>
@@ -118,7 +116,7 @@ const AuthPage = () => {
           </button>
           <a
             class="inline-block align-baseline font-bold text-sm py-2 text-blue-500 hover:text-blue-800"
-            href="#"
+            href="/#"
           >
             Forgot Password?
           </a>

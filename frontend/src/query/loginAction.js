@@ -1,5 +1,3 @@
-import UserContext from "../utils/UserContext";
-
 const LoginAction = async (email, password) => {
 
   const loginQuery = {

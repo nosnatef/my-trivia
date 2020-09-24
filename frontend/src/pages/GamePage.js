@@ -110,9 +110,7 @@ const GamePage = () => {
       });
   };
 
-  useEffect(() => {
-    refreshQuestions();
-  }, [API_URL]);
+  useEffect(refreshQuestions, [API_URL]);
 
   let content = <div class="self-center"></div>;
 

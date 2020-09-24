@@ -17,6 +17,7 @@ const MainNavBar = () => {
         <NavLink to="/profile">{currentUser.username}</NavLink>
       </a>
       <a
+        href="/#"
         class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white cursor-pointer"
         onClick={currentUser.logout}
       >
@@ -26,22 +27,30 @@ const MainNavBar = () => {
   );
 
   const loginLink = (
-    <a class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white">
+    <a
+      href="/#"
+      class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white"
+    >
       <NavLink to="/auth">Log in</NavLink>
     </a>
   );
 
-  const userProfilePic = <img class="h-6 w-6 mr-2" src={currentUser.profilePic}></img>;
+  const userProfilePic = (
+    <img
+      class="h-6 w-6 mr-2"
+      src={currentUser.profilePic}
+      alt="User's profile Pic"
+    ></img>
+  );
 
   return (
     <nav class="flex items-center justify-between flex-wrap bg-blue-700 p-6">
       <NavLink to="/" exact>
         <div class="flex items-center flex-shrink-0 text-white mr-6">
           <svg
-            class="fill-current w-8 h-8 mr-2"
+            class="fill-current w-8 h-8 mr-2 fire"
             viewBox="0 0 20 20"
             fill="currentColor"
-            class="fire w-6 h-6"
           >
             <path
               fill-rule="evenodd"

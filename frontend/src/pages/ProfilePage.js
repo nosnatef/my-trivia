@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import UserContext from "../utils/UserContext";
 import AchievementCard from "../components/AchievementCard";
@@ -10,16 +10,18 @@ export default function ProfilePage() {
 
   const [achievements, setAchievements] = useState([]);
 
-  const unlockedAchievementNames = currentUser.unlockedAchievement.map(a => {
+  const unlockedAchievementNames = currentUser.unlockedAchievement.map((a) => {
     return a.name;
   });
 
-  useEffect(async () => {
-    const achievementList = await getAchievements();
-    if (achievementList) {
-      setAchievements(achievementList.data.achievements);
+  useEffect(() => {
+    async function getData() {
+      const achievementList = await getAchievements();
+      if (achievementList) {
+        setAchievements(achievementList.data.achievements);
+      }
     }
-    console.log(unlockedAchievementNames);
+    getData();
   }, []);
 
   return (
@@ -27,6 +29,7 @@ export default function ProfilePage() {
       <div class="flex mb-16">
         <div class="w-1/3">
           <img
+            alt="User's profile Pic"
             src={currentUser.profilePic}
             class="shadow rounded-full w-32 h-32"
           ></img>
@@ -36,11 +39,18 @@ export default function ProfilePage() {
         </div>
       </div>
       <div class="flex flex-wrap justify-between border-gray-600">
-        {achievements && achievements.map((achievement) => {
-          const { name, description } = achievement;
-          console.log(unlockedAchievementNames)
-          return (<AchievementCard name={name} description={description} finished={unlockedAchievementNames.includes(name)} />);
-        })}
+        {achievements &&
+          achievements.map((achievement) => {
+            const { name, description } = achievement;
+            console.log(unlockedAchievementNames);
+            return (
+              <AchievementCard
+                name={name}
+                description={description}
+                finished={unlockedAchievementNames.includes(name)}
+              />
+            );
+          })}
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./assets/main.css";
 import UserContext from "./utils/UserContext";
-import { fireApp } from "./base";
 
 import {
   BrowserRouter as Router,
@@ -16,8 +15,6 @@ import AboutPage from "./pages/AboutPage";
 import MainNavBar from "./components/Navigation/MainNavBar";
 import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
-
-const db = fireApp.firestore();
 
 function App() {
   const [token, setToken] = useState(null);

@@ -1,12 +1,10 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useContext, useRef } from "react";
 
 import TriviaContext from "../../utils/TriviaContext";
 
 export default function TriviaConfig() {
   const difficultyRef = useRef(null);
   const numberRef = useRef(null);
-
-  const [isShown, setIsShown] = useState(false);
 
   const baseAPI = "https://opentdb.com/api.php?";
 
