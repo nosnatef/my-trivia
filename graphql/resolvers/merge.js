@@ -14,8 +14,8 @@ const achievement = async (id) => {
 
 const formatUser = async (user) => {
     return { ...user._doc,
-        unlockedAchievements:user.unlockedAchievements.map((a) => {
-            return achievement(a);
+        unlockedAchievements:user.unlockedAchievements.map(async (a) => {
+            return await achievement(a);
         })};
 };
 

@@ -47,6 +47,7 @@ const AuthPage = () => {
       currentUser.setCoins(userCoins);
       const userProfilePic = loginData.data.login.user.profilePic;
       currentUser.setProfilePic(userProfilePic);
+      
     }
   };
 

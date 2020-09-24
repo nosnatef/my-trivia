@@ -73,7 +73,9 @@ module.exports = {
       }
       const userResult = await User.findById(filter);
       if (userResult) {
-        return formatUser(userResult);
+        const formatResult = await formatUser(userResult);
+        console.log(formatResult.unlockedAchievements)
+        return formatResult;
       } else {
         throw Error("User does not exist.");
       }

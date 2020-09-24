@@ -25,6 +25,7 @@ function App() {
   const [username, setUsername] = useState(null);
   const [coins, setCoins] = useState(0);
   const [profilePic, setProfilePic] = useState(null);
+  const [unlockedAchievement, setUnlockedAchievement] = useState([]);
 
   const login = (token, userId, tokenExpiration, username) => {
     setToken(token);
@@ -54,6 +55,8 @@ function App() {
           setCoins,
           profilePic,
           setProfilePic,
+          unlockedAchievement,
+          setUnlockedAchievement,
         }}
       >
         <MainNavBar />

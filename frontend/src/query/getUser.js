@@ -6,6 +6,9 @@ const getUser = async (token) => {
         name
         coins
         email
+        unlockedAchievements{
+          name
+        }
       }
     }
   `

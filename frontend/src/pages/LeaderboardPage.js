@@ -7,6 +7,7 @@ import LeaderboardCard from "../components/LeaderboardCard";
 const LeaderboardPage = () => {
   const [users, setUsers] = useState([]);
 
+
   useEffect(() => {
     getLeaderboard().then((data) => {
       setUsers(data.data.getLeaderboard);

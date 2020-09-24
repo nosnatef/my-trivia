@@ -10,11 +10,16 @@ export default function ProfilePage() {
 
   const [achievements, setAchievements] = useState([]);
 
+  const unlockedAchievementNames = currentUser.unlockedAchievement.map(a => {
+    return a.name;
+  });
+
   useEffect(async () => {
     const achievementList = await getAchievements();
     if (achievementList) {
       setAchievements(achievementList.data.achievements);
     }
+    console.log(unlockedAchievementNames);
   }, []);
 
   return (
@@ -33,7 +38,8 @@ export default function ProfilePage() {
       <div class="flex flex-wrap justify-between border-gray-600">
         {achievements && achievements.map((achievement) => {
           const { name, description } = achievement;
-          return (<AchievementCard name={name} description={description} />);
+          console.log(unlockedAchievementNames)
+          return (<AchievementCard name={name} description={description} finished={unlockedAchievementNames.includes(name)} />);
         })}
       </div>
     </div>

@@ -36,6 +36,9 @@ const GamePage = () => {
     const getResult = await getUser(currentUser.token);
     const newCoin = getResult.data.getUser.coins;
     currentUser.setCoins(newCoin);
+    const unlockedAchievement = getResult.data.getUser.unlockedAchievements;
+    currentUser.setUnlockedAchievement(unlockedAchievement);
+    console.log(getResult.data.getUser);
   };
 
   const updateScore = (x) => {
