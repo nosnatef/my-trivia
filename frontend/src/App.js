@@ -58,7 +58,7 @@ function App() {
         }}
       >
         <MainNavBar />
-        <div class="flex justify-center items-center h-screen">
+        <div class="">
           <Switch>
             {!token && <Redirect from="/" to="/auth" exact />}
             {token && <Redirect from="/auth" to="/" exact />}

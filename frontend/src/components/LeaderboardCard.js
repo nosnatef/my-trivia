@@ -4,18 +4,21 @@ import coinIcon from "../images/coinIcon";
 
 export default function LeaderboardCard({ user }) {
   return (
-    <div class="flex justify-between items-center bg-white rounded p-4 mb-4">
+    <div class="flex flex-col bg-white p-4 m-4 w-1/3 h-70 shadow-lg rounded-lg">
       <img
         alt="User's profile pic"
-        class="h-8 hidden md:block"
+        class="w-full h-56 object-cover object-top"
         src={user.profilePic}
       ></img>
-      <div>
-        <p class="font-bold text-sm mx-2">{user.name}</p>
+      <div class="py-6 px-6 w-full">
+        <h1 class="text-2xl font-semibold text-gray-800">{user.name}</h1>
       </div>
-      <div>{coinIcon}</div>
-      <div>
-        <p class="font-bold text-sm">{user.coins}</p>
+      <p class="font-bold text-sm mx-2"></p>
+      <div class="flex items-center">
+        <div>{coinIcon}</div>
+        <div>
+          <p class="font-bold text-sm">{user.coins}</p>
+        </div>
       </div>
     </div>
   );
