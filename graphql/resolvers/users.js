@@ -88,7 +88,7 @@ module.exports = {
         .sort({
           coins: -1,
         })
-        .limit(5);
+        .limit(15);
       if (userResult) {
         const returnResult = userResult.map((user) => formatUser(user));
         return returnResult;

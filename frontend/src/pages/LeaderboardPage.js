@@ -22,8 +22,9 @@ const LeaderboardPage = () => {
         ))}
       </div>
       <div class="flex flex-col mt-8">
-        <div><LeaderboardTab/></div>
-        <div>2</div>
+        {users.slice(5).map((user) => (
+          <LeaderboardTab user={user} />
+          ))}
       </div>
     </div>
   );
